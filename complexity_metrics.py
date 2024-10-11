@@ -170,30 +170,6 @@ def process_frame_interval_for_parallel(timestamps):
         return 1.0 / frame_interval  # Frame rate (in fps)
     return 0.0  # Return 0 if frame interval is invalid
 
-def normalize_metrics(metrics):
-    """
-    Normalize the provided metrics based on predefined min and max values.
-    """
-    # Define the min and max values for normalization
-    min_max_values = {
-        'advanced_motion_complexity': (0.0, 10.0),
-        'dct_complexity': (1e6, 5e7),
-        'temporal_dct_complexity': (0.0, 1e7),
-        'histogram_complexity': (0.0, 8.0),
-        'edge_detection_complexity': (0.0, 1.0),
-        'orb_feature_complexity': (0.0, 5000),
-        'color_histogram_complexity': (0.0, 8.0),
-        'framerate_variation_complexity': (0.0, 2.0)
-    }
-
-    # Normalize each metric
-    normalized_metrics = {
-        key: (value - min_max_values[key][0]) / (min_max_values[key][1] - min_max_values[key][0])
-        if min_max_values[key][1] > min_max_values[key][0] else 0
-        for key, value in metrics.items()
-    }
-
-    return normalized_metrics
 
 
 def normalize(value, min_value, max_value):
