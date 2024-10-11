@@ -183,7 +183,7 @@ def normalize_metrics(metrics):
         'edge_detection_complexity': (0.0, 1.0),
         'orb_feature_complexity': (0.0, 5000),
         'color_histogram_complexity': (0.0, 8.0),
-        'smoothed_framerate_variation': (0.0, 2.0)
+        'framerate_variation_complexity': (0.0, 2.0)
     }
 
     # Normalize each metric
@@ -290,7 +290,7 @@ def calculate_scene_complexity(video_path, resize_width, resize_height, frame_in
         'edge_detection_complexity': edge_detection_complexity_norm,
         'orb_feature_complexity': orb_feature_complexity_norm,
         'color_histogram_complexity': color_histogram_complexity_norm,
-        'smoothed_framerate_variation': framerate_variation_complexity_norm
+        'framerate_variation_complexity': framerate_variation_complexity_norm
     }
 
     # Determine output based on the `output_type` argument
