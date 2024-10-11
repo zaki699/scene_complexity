@@ -1,0 +1,8 @@
+{
+    "resize_width": 64,
+    "resize_height": 64,
+    "frame_interval": 10,
+    "smoothing_factor": 0.8,
+    "batch_size": 100,
+    "num_workers": 4
+}
