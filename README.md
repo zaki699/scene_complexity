@@ -84,7 +84,7 @@ python plot_video_scene_complexity_across_folder.py <config_file> <folder_path>
 When videos have different durations, the array sizes for the calculated metrics may not align. During the process of plotting or aggregating the data, shorter videos would result in fewer data points, leaving gaps in the metric arrays. By padding shorter arrays with zeros or other placeholders, you can ensure that all arrays have the same length, allowing proper comparison across videos. However, filling with zeros can affect the visual representation or analysis, since zero values may indicate no complexity, which might not be accurate for a scene.
 
 ## Output
-![Scene Complexity Plot](./demo.png)
+![Scene Complexity Plot](./screenshot.png)
 
 ## License
 
