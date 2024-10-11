@@ -13,7 +13,7 @@ This tool computes scene complexity metrics for videos, such as motion, edge det
 ### Installation
 1.	Clone the repository:
   ```bash
-  git clone (https://github.com/zaki699/scene_complexity)
+  git clone https://github.com/zaki699/scene_complexity
   cd  scene_complexity
   ```
 
