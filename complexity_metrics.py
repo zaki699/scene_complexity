@@ -33,7 +33,7 @@ def validate_video_path(input_path):
     if not isinstance(input_path, str):
         raise ValueError("Invalid input path. Please provide a valid file path.")
 
-    if input_path.endswith(('.mp4', '.avi', '.mov')):
+    if input_path.endswith(('.mp4', '.avi', '.mov', '.mkv')):
         return 'video'
     elif input_path.endswith(('.jpg', '.png')):
         return 'frame'
