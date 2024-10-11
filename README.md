@@ -63,6 +63,8 @@ python plot_video_scene_complexity_across_folder.py <config_file> <folder_path>
 	- Temporal DCT: Evaluates changes in DCT over time.
 	- Frame Rate Variation: Measures the variation in frame rate.
 
+## Output
+![Scene Complexity Plot](./demo.png)
 
 ## License
 
