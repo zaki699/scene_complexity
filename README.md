@@ -63,6 +63,23 @@ python plot_video_scene_complexity_across_folder.py <config_file> <folder_path>
 	- Temporal DCT: Evaluates changes in DCT over time.
 	- Frame Rate Variation: Measures the variation in frame rate.
 
+ ## Metrics Normalized 
+ Define the min and max values for normalization (based on observed data ranges) 
+ 
+ ```json
+
+    min_max_values = {
+        'advanced_motion_complexity': (0.0, 10.0),
+        'dct_complexity': (1e6, 5e7),
+        'temporal_dct_complexity': (0.0, 1e7),
+        'histogram_complexity': (0.0, 8.0),
+        'edge_detection_complexity': (0.0, 1.0),
+        'orb_feature_complexity': (0.0, 5000),
+        'color_histogram_complexity': (0.0, 8.0),
+        'smoothed_framerate_variation': (0.0, 2.0)
+    }
+```
+
 ## Output
 ![Scene Complexity Plot](./demo.png)
 
