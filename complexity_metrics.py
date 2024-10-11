@@ -281,17 +281,21 @@ def calculate_scene_complexity(video_path, resize_width, resize_height, frame_in
         return metrics
     
     elif output_type == OutputType.TOTAL_SCORE:
+        # Define weights for each metric
+        weights = {
+            'advanced_motion_complexity': 0.25,
+            'dct_complexity': 0.15,
+            'temporal_dct_complexity': 0.15,
+            'histogram_complexity': 0.10,
+            'edge_detection_complexity': 0.10,
+            'orb_feature_complexity': 0.10,
+            'color_histogram_complexity': 0.10,
+            'framerate_variation_complexity': 0.05
+        }
+
         # Apply weights and compute total complexity score
-        return (
-            np.mean(advanced_motion_complexity_norm) * 0.25 +
-            np.mean(dct_complexity_norm) * 0.15 +
-            np.mean(temporal_dct_complexity_norm) * 0.15 +
-            np.mean(histogram_complexity_norm) * 0.10 +
-            np.mean(edge_detection_complexity_norm) * 0.10 +
-            np.mean(orb_feature_complexity_norm) * 0.10 +
-            np.mean(color_histogram_complexity_norm) * 0.10 +
-            np.mean(framerate_variation_complexity_norm) * 0.05
-        )
+        total_score = sum(np.mean(metrics[metric]) * weight for metric, weight in weights.items())
+        return total_score
 
 
 # Optical Flow using GPU or CPU
