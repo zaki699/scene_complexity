@@ -19,7 +19,7 @@ def plot_metrics_across_videos(folder_path, resize_width, resize_height, frame_i
         sys.exit(1)
 
     # Get the list of video files in the folder
-    video_files = [f for f in os.listdir(folder_path) if f.endswith(('.mp4', '.avi', '.mov'))]
+    video_files = [f for f in os.listdir(folder_path) if f.endswith(('.mp4', '.avi', '.mov', '.mkv'))]
     
     # Check if the folder contains any video files
     if not video_files:
@@ -114,7 +114,7 @@ if __name__ == '__main__':
     parser.add_argument(
             'folder_path', 
             type=str, 
-            help="Path to the folder containing the video files to be analyzed. Supported formats: .mp4, .avi, .mov."
+            help="Path to the folder containing the video files to be analyzed. Supported formats: .mp4, .avi, .mov, .mkv."
     )
     
     args = parser.parse_args()
