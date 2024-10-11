@@ -33,7 +33,7 @@ def validate_video_path(input_path):
     if not isinstance(input_path, str):
         raise ValueError("Invalid input path. Please provide a valid file path.")
 
-    if input_path.endswith(('.mp4', '.avi', '.mov', '.mkv')):
+    if input_path.endswith(('.mp4', '.avi', '.mov')):
         return 'video'
     elif input_path.endswith(('.jpg', '.png')):
         return 'frame'
@@ -230,6 +230,10 @@ def calculate_scene_complexity(video_path, resize_width, resize_height, frame_in
     Returns:
         tuple: A tuple containing average metrics calculated from the video.
     """
+
+    def pad_array(arr, target_length):
+        return np.pad(arr, (0, target_length - len(arr)), mode='constant')
+
     frame_pairs = read_frame_pairs(video_path, frame_interval)
 
     if num_workers is None:
@@ -271,6 +275,7 @@ def calculate_scene_complexity(video_path, resize_width, resize_height, frame_in
     temporal_dct_complexity = calculate_temporal_dct(video_path, resize_width, resize_height, frame_interval, smoothing_factor)
     smoothed_temporal_dct_complexity = smooth_data(temporal_dct_complexity, smoothing_factor)
     temporal_dct_complexity_norm = normalize(smoothed_temporal_dct_complexity, *min_max_values['temporal_dct_complexity'])
+    
 
 
     frame_timestamps = extract_frame_timestamps(video_path, frame_interval)
@@ -278,7 +283,6 @@ def calculate_scene_complexity(video_path, resize_width, resize_height, frame_in
     framerate_variation_complexity = process_in_batches(timestamp_pairs, process_frame_interval_for_parallel, num_workers, batch_size)
     smoothed_framerate_variation_complexity = smooth_data(framerate_variation_complexity, smoothing_factor)
     framerate_variation_complexity_norm = normalize(smoothed_framerate_variation_complexity, *min_max_values['framerate_variation_complexity'])
-
 
 
     # Prepare the metrics dictionary
@@ -303,14 +307,14 @@ def calculate_scene_complexity(video_path, resize_width, resize_height, frame_in
     elif output_type == OutputType.TOTAL_SCORE:
         # Apply weights and compute total complexity score
         return (
-            advanced_motion_complexity_norm * 0.25 +
-            dct_complexity_norm * 0.15 +
-            temporal_dct_complexity_norm * 0.15 +
-            histogram_complexity_norm * 0.10 +
-            edge_detection_complexity_norm * 0.10 +
-            orb_feature_complexity_norm * 0.10 +
-            color_histogram_complexity_norm * 0.10 +
-            framerate_variation_complexity_norm * 0.05
+            np.mean(advanced_motion_complexity_norm) * 0.25 +
+            np.mean(dct_complexity_norm) * 0.15 +
+            np.mean(temporal_dct_complexity_norm) * 0.15 +
+            np.mean(histogram_complexity_norm) * 0.10 +
+            np.mean(edge_detection_complexity_norm) * 0.10 +
+            np.mean(orb_feature_complexity_norm) * 0.10 +
+            np.mean(color_histogram_complexity_norm) * 0.10 +
+            np.mean(framerate_variation_complexity_norm) * 0.05
         )
 
 
