@@ -1,0 +1,6 @@
+cupy==13.3.0
+matplotlib==3.9.2
+numpy==2.1.2
+opencv_python==4.10.0.84
+pandas==2.2.3
+tqdm==4.66.5
