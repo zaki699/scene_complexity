@@ -53,21 +53,6 @@ Set your configuration options in the config.json file. Example configuration:
 python plot_video_scene_complexity_across_folder.py <config_file> <folder_path>
 ```
 
-Run the classifier by providing the video path and configuration file as follows:
-```bash
-python classify_video.py config.json path_to_video.mp4
-```
-
-Example Output
-
-After processing, the script will display the complexity score and classification for the video:
-```bash
---- Video Analysis: path_to_video.mp4 ---
-Total Complexity Score: 0.78
-Classification: High Complexity
------------------------------------------
-```
-
 
 ## Metrics Analyzed
 
@@ -102,6 +87,23 @@ When videos have different durations, the array sizes for the calculated metrics
 ## Output
 ![Scene Complexity Plot](./screenshot.png)
 
+## Additionally
+another script is available that classifies your content based on its total scene complexity score
+
+Run the classifier by providing the video path and configuration file as follows:
+```bash
+python classify_video.py config.json path_to_video.mp4
+```
+
+Example Output
+
+After processing, the script will display the complexity score and classification for the video:
+```bash
+--- Video Analysis: path_to_video.mp4 ---
+Total Complexity Score: 0.78
+Classification: High Complexity
+-----------------------------------------
+```
 
 
 ## License
