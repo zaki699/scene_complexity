@@ -79,22 +79,22 @@ def classify_complexity(total_score):
 
 def assign_vbv_settings(total_score):
     """
-    Assign VBV settings (bitrate and buffer size) based on the scene complexity score.
-    
+    Assigns VBV settings (bitrate and buffer size) based on the scene complexity score.
+
     Parameters:
         total_score (float): The total complexity score of the video.
-    
+
     Returns:
-        dict: A dictionary with 'vbv_maxrate' and 'vbv_bufsize' values.
+        dict: A dictionary with 'vbv_minrate', 'vbv_maxrate', and 'vbv_bufsize' values.
     """
     vbv_settings = {
-        "Extremely High Complexity": {'vbv_maxrate': 10000, 'vbv_bufsize': 20000},
-        "High Complexity": {'vbv_maxrate': 8000, 'vbv_bufsize': 16000},
-        "Moderately High Complexity": {'vbv_maxrate': 6000, 'vbv_bufsize': 12000},
-        "Moderate Complexity": {'vbv_maxrate': 5000, 'vbv_bufsize': 10000},
-        "Low to Moderate Complexity": {'vbv_maxrate': 4000, 'vbv_bufsize': 8000},
-        "Low Complexity": {'vbv_maxrate': 3000, 'vbv_bufsize': 6000},
-        "Static/Low Motion": {'vbv_maxrate': 2000, 'vbv_bufsize': 4000}
+        "Extremely High Complexity": {'vbv_minrate': 5000, 'vbv_maxrate': 10000, 'vbv_bufsize': 20000},
+        "High Complexity": {'vbv_minrate': 4000, 'vbv_maxrate': 8000, 'vbv_bufsize': 16000},
+        "Moderately High Complexity": {'vbv_minrate': 3000, 'vbv_maxrate': 6000, 'vbv_bufsize': 12000},
+        "Moderate Complexity": {'vbv_minrate': 2500, 'vbv_maxrate': 5000, 'vbv_bufsize': 10000},
+        "Low to Moderate Complexity": {'vbv_minrate': 2000, 'vbv_maxrate': 4000, 'vbv_bufsize': 8000},
+        "Low Complexity": {'vbv_minrate': 1500, 'vbv_maxrate': 3000, 'vbv_bufsize': 6000},
+        "Static/Low Motion": {'vbv_minrate': 1000, 'vbv_maxrate': 2000, 'vbv_bufsize': 4000}
     }
     
     complexity_class = classify_complexity(total_score)
@@ -121,7 +121,7 @@ def print_video_classification(video_path, total_score, complexity_class, vbv_se
     print(f"Assigned VBV Maxrate: {vbv_settings['vbv_maxrate']} kbps")
     print(f"Assigned VBV Buffer Size: {vbv_settings['vbv_bufsize']} kbps")
     print("-----------------------------------")
-    
+
 # Load configuration from a JSON file
 def load_config(config_path='config.json'):
     try:
