@@ -207,9 +207,6 @@ def calculate_scene_complexity(video_path, resize_width, resize_height, frame_in
         tuple: A tuple containing average metrics calculated from the video.
     """
 
-    def pad_array(arr, target_length):
-        return np.pad(arr, (0, target_length - len(arr)), mode='constant')
-
     frame_pairs = read_frame_pairs(video_path, frame_interval)
 
     if num_workers is None:
