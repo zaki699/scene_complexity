@@ -13,38 +13,115 @@ from complexity_metrics import OutputType, calculate_scene_complexity
 
 
 def classify_video(video_path, resize_width, resize_height, frame_interval, num_workers, batch_size, output_type):
-    # Check if the folder exists
-    if not os.path.exists(video_path):
-        print(f"Error: Video '{video_path}' does not exist.")
-        sys.exit(1)
-
-
-    total_score = calculate_scene_complexity(
-            video_path, resize_width=resize_width, resize_height=resize_height, frame_interval=frame_interval, num_workers=num_workers, batch_size=batch_size, output_type=output_type
-        )
+    """
+    Classify a video based on its total scene complexity score and assign VBV settings.
     
-    # Classify based on total score
-    if np.mean(total_score) > 0.9:
-        complexity_class = "Extremely High Complexity"
-    elif np.mean(total_score) > 0.75:
-        complexity_class = "High Complexity"
-    elif np.mean(total_score) > 0.6:
-        complexity_class = "Moderately High Complexity"
-    elif np.mean(total_score) > 0.5:
-        complexity_class = "Moderate Complexity"
-    elif np.mean(total_score) > 0.35:
-        complexity_class = "Low to Moderate Complexity"
-    elif np.mean(total_score) > 0.25:
-        complexity_class = "Low Complexity"
-    else:
-        complexity_class = "Static/Low Motion"
+    Parameters:
+        video_path (str): Path to the video file.
+        resize_width (int): Width to resize frames.
+        resize_height (int): Height to resize frames.
+        frame_interval (int): Interval for frame extraction.
+        num_workers (int): Number of workers for processing.
+        batch_size (int): Batch size for frame processing.
+        output_type (Enum): Type of output required from scene complexity calculation.
 
-    # Print results with improved readability
+    Returns:
+        None
+    """
+    # Check if video file exists
+    if not os.path.exists(video_path):
+        sys.exit(f"Error: Video '{video_path}' does not exist.")
+
+    # Calculate total scene complexity score
+    total_score = calculate_scene_complexity(
+        video_path, 
+        resize_width=resize_width, 
+        resize_height=resize_height, 
+        frame_interval=frame_interval, 
+        num_workers=num_workers, 
+        batch_size=batch_size, 
+        output_type=output_type
+    )
+    
+    # Classify the video complexity and assign VBV settings
+    complexity_class = classify_complexity(np.mean(total_score))
+    vbv_settings = assign_vbv_settings(np.mean(total_score))
+
+    # Print results in a clean format
+    print_video_classification(video_path, total_score, complexity_class, vbv_settings)
+
+
+def classify_complexity(total_score):
+    """
+    Classify the video based on the total complexity score.
+    
+    Parameters:
+        total_score (float): The total complexity score.
+    
+    Returns:
+        str: The complexity classification.
+    """
+    if total_score > 0.9:
+        return "Extremely High Complexity"
+    elif total_score > 0.75:
+        return "High Complexity"
+    elif total_score > 0.6:
+        return "Moderately High Complexity"
+    elif total_score > 0.5:
+        return "Moderate Complexity"
+    elif total_score > 0.35:
+        return "Low to Moderate Complexity"
+    elif total_score > 0.25:
+        return "Low Complexity"
+    else:
+        return "Static/Low Motion"
+
+
+def assign_vbv_settings(total_score):
+    """
+    Assign VBV settings (bitrate and buffer size) based on the scene complexity score.
+    
+    Parameters:
+        total_score (float): The total complexity score of the video.
+    
+    Returns:
+        dict: A dictionary with 'vbv_maxrate' and 'vbv_bufsize' values.
+    """
+    vbv_settings = {
+        "Extremely High Complexity": {'vbv_maxrate': 10000, 'vbv_bufsize': 20000},
+        "High Complexity": {'vbv_maxrate': 8000, 'vbv_bufsize': 16000},
+        "Moderately High Complexity": {'vbv_maxrate': 6000, 'vbv_bufsize': 12000},
+        "Moderate Complexity": {'vbv_maxrate': 5000, 'vbv_bufsize': 10000},
+        "Low to Moderate Complexity": {'vbv_maxrate': 4000, 'vbv_bufsize': 8000},
+        "Low Complexity": {'vbv_maxrate': 3000, 'vbv_bufsize': 6000},
+        "Static/Low Motion": {'vbv_maxrate': 2000, 'vbv_bufsize': 4000}
+    }
+    
+    complexity_class = classify_complexity(total_score)
+    
+    return vbv_settings[complexity_class]
+
+
+def print_video_classification(video_path, total_score, complexity_class, vbv_settings):
+    """
+    Print video classification results and VBV settings.
+    
+    Parameters:
+        video_path (str): Path to the video file.
+        total_score (float): The total complexity score.
+        complexity_class (str): The complexity classification.
+        vbv_settings (dict): The assigned VBV settings.
+    
+    Returns:
+        None
+    """
     print(f"--- Video Analysis: {video_path} ---")
     print(f"Total Complexity Score: {np.mean(total_score):.2f}")
     print(f"Classification: {complexity_class}")
+    print(f"Assigned VBV Maxrate: {vbv_settings['vbv_maxrate']} kbps")
+    print(f"Assigned VBV Buffer Size: {vbv_settings['vbv_bufsize']} kbps")
     print("-----------------------------------")
-
+    
 # Load configuration from a JSON file
 def load_config(config_path='config.json'):
     try:
