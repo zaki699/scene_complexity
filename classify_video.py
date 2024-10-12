@@ -118,6 +118,7 @@ def print_video_classification(video_path, total_score, complexity_class, vbv_se
     print(f"--- Video Analysis: {video_path} ---")
     print(f"Total Complexity Score: {np.mean(total_score):.2f}")
     print(f"Classification: {complexity_class}")
+    print(f"Assigned VBV Minrate: {vbv_settings['vbv_minrate']} kbps")
     print(f"Assigned VBV Maxrate: {vbv_settings['vbv_maxrate']} kbps")
     print(f"Assigned VBV Buffer Size: {vbv_settings['vbv_bufsize']} kbps")
     print("-----------------------------------")
