@@ -99,10 +99,13 @@ Example Output
 
 After processing, the script will display the complexity score and classification for the video:
 ```bash
---- Video Analysis: path_to_video.mp4 ---
-Total Complexity Score: 0.78
+INFO:complexity_metrics:CuPy is not available. Using CPU processing.
+--- Video Analysis: ../Samples/SampleVideo_640x360_10mb.mp4 ---
+Total Complexity Score: 0.88
 Classification: High Complexity
------------------------------------------
+Assigned VBV Maxrate: 8000 kbps
+Assigned VBV Buffer Size: 16000 kbps
+-----------------------------------
 ```
 
 
